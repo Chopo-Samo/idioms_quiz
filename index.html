@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light dark">
+  <title>102 Idioms Quiz — English to Armenian</title>
+  <link rel="stylesheet" href="styles.css">
+  <script defer src="data/idioms.js"></script>
+  <script defer src="app.js"></script>
+</head>
+<body>
+  <a href="#main-content" class="skip-link visually-hidden">Skip to content</a>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <button type="button" id="brand-home-btn" class="brand-btn" aria-label="Back to home">
+        <span class="brand-mark" aria-hidden="true">102</span>
+        <span class="brand-text">
+          <span class="brand-title">Idioms Quiz</span>
+          <span class="brand-sub">English → Հայերեն</span>
+        </span>
+      </button>
+
+      <div class="header-controls">
+        <span class="kbd-hint">Keys: 1–4 · Enter</span>
+        <button type="button" id="theme-toggle-btn" class="icon-btn" aria-pressed="false" aria-label="Switch theme">
+          <span class="theme-icon" aria-hidden="true">◐</span>
+          <span id="theme-label">Auto</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main-content" tabindex="-1">
+    <!-- Home / Mode Selection View -->
+    <section id="view-home" class="view view-home">
+      <div class="hero-card">
+        <div class="hero-top">
+          <div>
+            <p class="eyebrow">Literal photo + 4 Armenian options</p>
+            <h1 class="hero-title">102 English Idioms Quiz</h1>
+            <p class="hero-desc">
+              Read the English idiom and its literal photo clue, then pick the real figurative meaning in Armenian.
+            </p>
+          </div>
+
+          <div class="stats-strip" id="overall-stats">
+            <div class="stat-pill">
+              <span class="stat-num" id="stat-mastered">0 / 102</span>
+              <span class="stat-label">Mastered</span>
+            </div>
+            <div class="stat-pill">
+              <span class="stat-num" id="stat-parts-done">0 / 4</span>
+              <span class="stat-label">Parts done</span>
+            </div>
+            <div class="stat-pill">
+              <span class="stat-num" id="stat-mistakes-count">0</span>
+              <span class="stat-label">Mistakes</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="home-actions-row">
+          <div class="quick-actions">
+            <button type="button" id="start-all-btn" class="btn btn-primary">
+              All 102 Idioms
+            </button>
+            <button type="button" id="start-mistakes-btn" class="btn btn-accent" hidden>
+              <span>Review Mistakes</span>
+              <span id="mistakes-badge" class="badge-count">0</span>
+            </button>
+          </div>
+
+          <div class="options-inline">
+            <label class="toggle-label" for="shuffle-toggle">
+              <input type="checkbox" id="shuffle-toggle" switch>
+              <span>Shuffle questions</span>
+            </label>
+            <button type="button" id="reset-progress-btn" class="btn-link">
+              Reset progress
+            </button>
+          </div>
+        </div>
+
+        <div class="parts-section">
+          <h2 class="parts-heading">Or play in 4 parts (102 ÷ 4)</h2>
+          <div id="parts-grid" class="parts-grid"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Quiz View -->
+    <section id="view-quiz" class="view view-quiz" hidden>
+      <div class="quiz-topbar">
+        <div class="quiz-topbar-left">
+          <button type="button" id="quit-quiz-btn" class="btn-ghost">
+            <span aria-hidden="true">←</span>
+            <span>Menu</span>
+          </button>
+          <h1 id="quiz-mode-title" class="quiz-title">Part 1</h1>
+        </div>
+
+        <div class="quiz-topbar-right">
+          <span class="progress-counter" id="progress-counter">1 / 26</span>
+          <div class="score-pill">
+            <span aria-hidden="true">✓</span>
+            <span id="quiz-score-text">0</span>
+            <span id="quiz-streak-pill" class="streak-pill" hidden>🔥 <span id="quiz-streak-num">0</span></span>
+          </div>
+        </div>
+      </div>
+
+      <progress id="quiz-progress" max="26" value="1"></progress>
+
+      <article class="question-card" id="question-card">
+        <div class="quiz-col-visual">
+          <div class="idiom-head">
+            <span class="idiom-number" id="q-number">#1</span>
+            <h2 class="idiom-title" id="q-idiom" lang="en">A hot potato</h2>
+          </div>
+
+          <figure class="photo-frame">
+            <img
+              id="q-image"
+              src=""
+              alt=""
+              width="1280"
+              height="720"
+              fetchpriority="high"
+              decoding="async"
+            >
+          </figure>
+        </div>
+
+        <div class="quiz-col-controls">
+          <p class="question-prompt">What does this idiom mean?</p>
+
+          <div class="options-grid" id="options-grid" role="group" aria-labelledby="q-idiom"></div>
+
+          <div id="feedback-panel" class="feedback-panel" data-visible="false" inert>
+            <div class="feedback-status">
+              <span id="feedback-icon" class="feedback-icon" aria-hidden="true"></span>
+              <span id="feedback-headline"></span>
+            </div>
+
+            <div class="feedback-body">
+              <div class="hy-top">
+                <strong id="fb-hy-equivalent" lang="hy" class="hy-eq"></strong>
+                <span id="fb-hy-tag" lang="hy" class="hy-tag"></span>
+              </div>
+              <p id="fb-hy-explanation" lang="hy" class="hy-exp"></p>
+              <p class="en-meaning">
+                <span class="meta-label">Meaning:</span>
+                <span id="fb-en-meaning" lang="en"></span>
+              </p>
+              <p class="en-example">
+                <span class="meta-label">Example:</span>
+                <em id="fb-en-example" lang="en"></em>
+              </p>
+            </div>
+
+            <div class="feedback-actions">
+              <button type="button" id="next-question-btn" class="btn btn-primary btn-next">
+                <span id="next-btn-label">Next question</span>
+                <span aria-hidden="true">→</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <!-- Results View -->
+    <section id="view-results" class="view view-results" hidden>
+      <div class="results-card">
+        <div class="results-head">
+          <div>
+            <p class="eyebrow" id="results-mode-label">Part 1</p>
+            <h1 class="results-title" id="results-headline">Great job!</h1>
+          </div>
+          <div class="results-score-box">
+            <div class="results-fraction" id="results-fraction">22 / 26</div>
+            <div class="results-pct" id="results-pct">85%</div>
+          </div>
+        </div>
+
+        <p class="results-summary-text" id="results-summary-text">
+          You got 22 correct answers out of 26.
+        </p>
+
+        <div class="results-stats-strip">
+          <div class="stat-pill stat-pill-ok">
+            <span class="stat-num" id="res-correct-count">22</span>
+            <span class="stat-label">Correct answers</span>
+          </div>
+          <div class="stat-pill stat-pill-err">
+            <span class="stat-num" id="res-wrong-count">4</span>
+            <span class="stat-label">Incorrect</span>
+          </div>
+          <div class="stat-pill">
+            <span class="stat-num" id="res-total-count">26</span>
+            <span class="stat-label">Total questions</span>
+          </div>
+        </div>
+
+        <div class="results-actions">
+          <button type="button" id="res-next-part-btn" class="btn btn-primary" hidden>
+            <span>Next part</span>
+            <span aria-hidden="true">→</span>
+          </button>
+          <button type="button" id="res-retry-mistakes-btn" class="btn btn-accent" hidden>
+            <span>Review session mistakes</span>
+          </button>
+          <button type="button" id="res-retry-btn" class="btn btn-secondary">
+            Play again
+          </button>
+          <button type="button" id="res-home-btn" class="btn btn-ghost">
+            Back to menu
+          </button>
+        </div>
+
+        <div id="mistakes-review-section" class="mistakes-review" hidden>
+          <h2>Mistakes in this session</h2>
+          <ul id="mistakes-list" class="mistakes-list"></ul>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>Created by Samvel Chopikyan</p>
+  </footer>
+
+  <div id="live-announcer" class="visually-hidden" aria-live="polite" aria-atomic="true"></div>
+</body>
+</html>
